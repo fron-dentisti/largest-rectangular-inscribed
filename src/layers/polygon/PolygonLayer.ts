@@ -1,8 +1,9 @@
+import { AbstractLayer } from "../AbstractLayer";
 import "./PolygonLayer.scss";
 
 import L from "leaflet";
 
-export class PolygonLayer {
+export class PolygonLayer extends AbstractLayer {
   static Options: L.PolylineOptions = {
     color: "var(--line-color)",
     weight: 1,
@@ -21,31 +22,23 @@ export class PolygonLayer {
   };
 
   vertexes: L.LatLng[];
-  layer: L.FeatureGroup;
 
   constructor(latLngs: L.LatLng[]) {
+    super();
     this.vertexes = latLngs;
-    this.layer = L.featureGroup([
+    this.addLayer(
       this.newPolygon(),
-      ...this.vertexes.map((vertex) => this.newVertex(vertex)),
-    ]);
-  }
-
-  getLayer() {
-    return this.layer;
-  }
-
-  addLayer(l: L.Layer) {
-    this.layer.addLayer(l);
+      ...this.vertexes.map((vertex, i) =>
+        this.newVertex(vertex, `${i} (${vertex.lng}; ${vertex.lat})`)
+      )
+    );
   }
 
   private newPolygon() {
     return L.polygon(this.vertexes, PolygonLayer.Options);
   }
 
-  private newVertex(vertex: L.LatLng) {
-    return L.circle(vertex, PolygonLayer.CircleOptions).bindPopup(
-      `(${vertex.lng}; ${vertex.lat})`
-    );
+  private newVertex(vertex: L.LatLng, popup?: string) {
+    return L.circle(vertex, PolygonLayer.CircleOptions).bindPopup(popup || "");
   }
 }
