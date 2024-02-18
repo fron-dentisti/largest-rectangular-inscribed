@@ -3,7 +3,7 @@ import { coordinates } from "./components/constants/coordinates";
 import { BoundsLayer } from "./layers/bounds/BoundsLayer";
 import { PolygonLayer } from "./layers/polygon/PolygonLayer";
 import "./style/style.scss";
-import { mapMaxBounds } from "./utils/constants";
+import { mapMaxBounds } from "./utils/coordinates";
 
 App.define();
 

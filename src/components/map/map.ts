@@ -4,7 +4,7 @@ import { EventFactory } from "../events/EventFactory";
 import { ZoomController } from "./controller/zoom";
 import { MapHelper } from "./map.helper";
 import "./map.scss";
-import { mapMaxBounds } from "../../utils/constants";
+import { mapMaxBounds } from "../../utils/coordinates";
 
 export class MapView extends HTMLElement {
   static TagName = "map-view";
