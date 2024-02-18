@@ -1,0 +1,36 @@
+zoom-controller {
+  $border-color: rgb(var(--neutral-700));
+
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+
+  z-index: 900;
+
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+
+  border: 1px solid $border-color;
+  border-radius: 0.5rem;
+  overflow: hidden;
+
+  button:not(:last-child) {
+    border-bottom: 1px solid $border-color;
+  }
+
+  button {
+    padding: 0.5rem;
+
+    border-radius: 0;
+    border: 0;
+    cursor: pointer;
+    background-color: rgb(var(--neutral-800));
+
+    .icon {
+      width: 1.25rem;
+      height: 1.25rem;
+
+      background-color: rgb(var(--neutral-200));
+    }
+  }
+}

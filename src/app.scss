@@ -1,0 +1,38 @@
+lirp-app {
+  display: grid;
+  margin: 0 10rem;
+  padding: 1rem;
+
+  .title {
+    display: grid;
+    grid-template-columns: min-content auto auto;
+    align-items: center;
+
+    .logo {
+      width: 2rem;
+      height: 2rem;
+      will-change: filter;
+
+      background-color: rgb(var(--violet-600));
+
+      // &:hover {
+      //   filter: drop-shadow(0 0 2em rgb(var(--violet-400)));
+      // }
+    }
+
+    span {
+      text-align: left;
+      margin-left: 1.5rem;
+    }
+
+    a {
+      font-size: smaller;
+      place-items: end;
+      margin-left: auto;
+    }
+  }
+
+  map-view {
+    margin-top: 0.75rem;
+  }
+}
