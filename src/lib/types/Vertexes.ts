@@ -16,7 +16,7 @@ export class Vertexes {
         this.#maxXIndex = i;
       }
       if (v.y > this.#vertexes[this.#maxYIndex].y) {
-        this.#minYIndex = i;
+        this.#maxYIndex = i;
       }
     });
   }

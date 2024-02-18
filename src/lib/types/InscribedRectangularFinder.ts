@@ -1,3 +1,4 @@
+import { Subareas } from ".";
 import { Bounds } from "./Bounds";
 import { Point } from "./Point";
 import { Vertexes } from "./Vertexes";
@@ -22,9 +23,9 @@ export abstract class InscribedRectangleFinder {
 
   abstract NormalizeVertexes(vertexes: Point[]): Vertexes;
 
-  abstract DividingIntoSubareas(vertexes: Vertexes): unknown;
+  abstract DividingIntoSubareas(vertexes: Vertexes): Subareas;
 
-  abstract IdentifyingSubareas(subareas: unknown): unknown;
+  abstract IdentifyingSubareas(subareas: Subareas): unknown;
 
   abstract NewRAGraph(init: unknown): unknown;
 

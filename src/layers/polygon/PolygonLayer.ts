@@ -40,7 +40,6 @@ export class PolygonLayer extends AbstractLayer {
 
     this.layer.once("add", () => {
       if (name) {
-        console.log(name, ": ");
         const epsilon = (7 * name.length + 16) * 66;
 
         const zoom = ZoomUtils.findMinZoom(
@@ -49,7 +48,6 @@ export class PolygonLayer extends AbstractLayer {
           1083,
           609.18
         );
-        const minZoom = 0;
         const maxZoom = 19;
 
         const className = ["name-label"];
@@ -73,7 +71,7 @@ export class PolygonLayer extends AbstractLayer {
       this.irView.FindPolygon(LeafletAdapter.LatLngToPoint(latLngs));
       console.log("---");
     } catch (err) {
-      console.warn(err);
+      // console.warn(err);
     }
   }
 

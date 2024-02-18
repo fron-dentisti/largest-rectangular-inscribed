@@ -1,7 +1,12 @@
 import { NotAnArray, NotTypeError } from "./errors/NotTypeOfError";
 import { NotEnoughVertexesError } from "./errors/PolygonsErrors";
-import { Bounds, InscribedRectangleFinder, Point } from "./types";
-import { Vertexes } from "./types/Vertexes";
+import {
+  Bounds,
+  InscribedRectangleFinder,
+  Point,
+  Subareas,
+  Vertexes,
+} from "./types";
 
 // Largest Inscribed Rectangle in Polygon Libray
 export class LargestInscribedRectangleInPolygonLibrary extends InscribedRectangleFinder {
@@ -49,12 +54,22 @@ export class LargestInscribedRectangleInPolygonLibrary extends InscribedRectangl
     ]);
   }
 
-  DividingIntoSubareas(vertexes: Vertexes): unknown {
-    throw new Error("Method not implemented.");
+  /**
+   *
+   */
+  DividingIntoSubareas(vertexes: Vertexes): Subareas {
+    const pickUniqueSorted = (mapFn: (v: Point) => number) =>
+      Array.from(new Set(vertexes.get().map(mapFn))).sort((a, b) => a - b);
+
+    const lats = pickUniqueSorted((p) => p.y);
+    const lngs = pickUniqueSorted((p) => p.x);
+
+    return new Subareas(vertexes, { lngs, lats });
   }
 
-  IdentifyingSubareas(subareas: unknown): unknown {
-    throw new Error("Method not implemented.");
+  IdentifyingSubareas(subareas: Subareas): unknown {
+    console.log(subareas.grid);
+    return undefined;
   }
 
   NewRAGraph(init: unknown): unknown {
