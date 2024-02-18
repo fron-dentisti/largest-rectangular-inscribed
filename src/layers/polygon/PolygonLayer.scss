@@ -6,3 +6,19 @@
     --vertex-fill-color: rgb(var(--sky-600));
   }
 }
+
+.name-label {
+  span {
+    text-wrap: nowrap;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 0 0.5rem;
+    border-radius: 0.125rem;
+
+    background-color: rgb(var(--sky-500));
+  }
+}

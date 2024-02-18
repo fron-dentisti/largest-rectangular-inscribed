@@ -1,10 +1,12 @@
+import { Point } from "../lib/types";
+
 export class GeometryUtil {
-  static GaussArea(points: L.Point[]): number {
+  static GaussArea(points: Point[]): number {
     const n = points.length;
 
     const area = points.reduce((acc, p1, i) => {
       const p2 = points[(i + 1) % n];
-      return acc + p1.x * p2.y + p1.y * p2.x;
+      return acc + p1.x * p2.y - p1.y * p2.x;
     }, 0);
 
     return Math.abs(area) / 2;

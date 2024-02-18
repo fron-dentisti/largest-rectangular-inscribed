@@ -1,4 +1,7 @@
+import { ZoomUtils } from "../../lib";
+import { LeafletAdapter } from "../../lib/adapters/LeafletAdapter";
 import { AbstractLayer } from "../AbstractLayer";
+import { InscribedRectangularView } from "./InscribedRectangle";
 import "./PolygonLayer.scss";
 
 import L from "leaflet";
@@ -21,21 +24,61 @@ export class PolygonLayer extends AbstractLayer {
     radius: 5,
   };
 
-  vertexes: L.LatLng[];
+  irView: InscribedRectangularView;
 
-  constructor(latLngs: L.LatLng[]) {
+  constructor(latLngs: L.LatLng[], name?: string) {
     super();
-    this.vertexes = latLngs;
+    this.irView = new InscribedRectangularView(this.layer);
+
+    const polygon = this.newPolygon(latLngs);
     this.addLayer(
-      this.newPolygon(),
-      ...this.vertexes.map((vertex, i) =>
+      polygon,
+      ...latLngs.map((vertex, i) =>
         this.newVertex(vertex, `${i} (${vertex.lng}; ${vertex.lat})`)
       )
     );
+
+    this.layer.once("add", () => {
+      if (name) {
+        console.log(name, ": ");
+        const epsilon = (7 * name.length + 16) * 66;
+
+        const zoom = ZoomUtils.findMinZoom(
+          LeafletAdapter.LatLngToPoint(latLngs),
+          epsilon,
+          1083,
+          609.18
+        );
+        const minZoom = 0;
+        const maxZoom = 19;
+
+        const className = ["name-label"];
+        for (let i = Math.min(maxZoom, zoom); i <= maxZoom; i++) {
+          className.push(`see-with-zoom-${i}`);
+        }
+
+        this.layer.addLayer(
+          L.marker(polygon.getCenter(), {
+            icon: L.divIcon({
+              html: `<span>${name}<span>`,
+              className: className.join(" "),
+            }),
+          })
+        );
+      }
+    });
+
+    try {
+      console.log(name);
+      this.irView.FindPolygon(LeafletAdapter.LatLngToPoint(latLngs));
+      console.log("---");
+    } catch (err) {
+      console.warn(err);
+    }
   }
 
-  private newPolygon() {
-    return L.polygon(this.vertexes, PolygonLayer.Options);
+  private newPolygon(vertexes: L.LatLng[]) {
+    return L.polygon(vertexes, PolygonLayer.Options);
   }
 
   private newVertex(vertex: L.LatLng, popup?: string) {

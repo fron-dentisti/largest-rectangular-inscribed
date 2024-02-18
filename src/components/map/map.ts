@@ -35,7 +35,7 @@ export class MapView extends HTMLElement {
     let container = this.MapContainer;
     if (!container) {
       container = document.createElement("div");
-      container.classList.add("map");
+      container.id = "map";
     }
     return container;
   }
@@ -57,17 +57,19 @@ export class MapView extends HTMLElement {
       this.#map = MapHelper.NewMap(map);
       this.#map.setZoom(this.#map.getBoundsZoom(mapMaxBounds));
 
-      this.dispatchEvent(new MapView.ZoomChangedEvent());
-      this.onZoomChanged(new MapView.ZoomChangedEvent());
-      this.#map?.on("zoomend", () => {
+      const onZoomEnd = () => {
+        map.setAttribute("zoom", `${this.#map?.getZoom()}`);
         this.dispatchEvent(new MapView.ZoomChangedEvent());
         this.onZoomChanged(new MapView.ZoomChangedEvent());
-      });
+      };
+
+      onZoomEnd();
+      this.#map?.on("zoomend", onZoomEnd);
     }
   }
 
   get MapContainer() {
-    return this.querySelector(".map") as HTMLElement;
+    return this.querySelector("#map") as HTMLElement;
   }
 
   get ZoomController() {

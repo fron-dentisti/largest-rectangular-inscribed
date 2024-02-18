@@ -56,4 +56,8 @@ export class Vertexes {
   get maxYIndex(): number {
     return this.#maxYIndex;
   }
+
+  get() {
+    return this.#vertexes;
+  }
 }

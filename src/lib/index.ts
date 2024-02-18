@@ -65,3 +65,5 @@ export class LargestInscribedRectangleInPolygonLibrary extends InscribedRectangl
     throw new Error("Method not implemented.");
   }
 }
+
+export * from "./zoom/ZoomUtils";
