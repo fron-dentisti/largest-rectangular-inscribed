@@ -80,4 +80,8 @@ export class App extends HTMLElement {
   private get MapInfo() {
     return this.querySelector(MapInfo.TagName) as MapInfo;
   }
+
+  addLayer(layer: L.Layer) {
+    this.MapView?.addLayer(layer);
+  }
 }

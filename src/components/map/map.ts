@@ -4,6 +4,7 @@ import { EventFactory } from "../events/EventFactory";
 import { ZoomController } from "./controller/zoom";
 import { MapHelper } from "./map.helper";
 import "./map.scss";
+import { mapMaxBounds } from "../../utils/constants";
 
 export class MapView extends HTMLElement {
   static TagName = "map-view";
@@ -18,7 +19,7 @@ export class MapView extends HTMLElement {
     bubbles: true,
   });
 
-  map?: L.Map;
+  #map?: L.Map;
   onZoomChanged: (e: Event) => void = () => {};
 
   connectedCallback() {
@@ -43,9 +44,9 @@ export class MapView extends HTMLElement {
     let zoom = this.ZoomController;
     if (!zoom) {
       zoom = new ZoomController();
-      zoom.onCenterMap = () => this.map?.setView([0, 0], 0);
-      zoom.onZoomInMap = () => this.map?.zoomIn();
-      zoom.onZoomOutMap = () => this.map?.zoomOut();
+      zoom.onCenterMap = () => this.#map?.setView([0, 0], 0);
+      zoom.onZoomInMap = () => this.#map?.zoomIn();
+      zoom.onZoomOutMap = () => this.#map?.zoomOut();
     }
     return zoom;
   }
@@ -53,19 +54,16 @@ export class MapView extends HTMLElement {
   initLeafletMap() {
     let map = this.MapContainer;
     if (map) {
-      this.map = MapHelper.NewMap(map);
+      this.#map = MapHelper.NewMap(map);
+      this.#map.setZoom(this.#map.getBoundsZoom(mapMaxBounds));
 
       this.dispatchEvent(new MapView.ZoomChangedEvent());
       this.onZoomChanged(new MapView.ZoomChangedEvent());
-      this.map?.on("zoomend", () => {
+      this.#map?.on("zoomend", () => {
         this.dispatchEvent(new MapView.ZoomChangedEvent());
         this.onZoomChanged(new MapView.ZoomChangedEvent());
       });
     }
-  }
-
-  getZoom() {
-    return this.map?.getZoom();
   }
 
   get MapContainer() {
@@ -74,5 +72,13 @@ export class MapView extends HTMLElement {
 
   get ZoomController() {
     return this.querySelector(ZoomController.TagName) as ZoomController;
+  }
+
+  getZoom() {
+    return this.#map?.getZoom();
+  }
+
+  addLayer(layer: L.Layer) {
+    this.#map?.addLayer(layer);
   }
 }

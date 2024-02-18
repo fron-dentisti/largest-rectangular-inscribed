@@ -1,0 +1,8 @@
+.polygon-layer {
+  --line-color: rgb(var(--sky-500));
+
+  &.vertex {
+    --vertex-line-color: rgb(var(--blue-500));
+    --vertex-fill-color: rgb(var(--sky-600));
+  }
+}
